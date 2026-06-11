@@ -2,8 +2,9 @@
   "name": "playground",
   "private": true,
   "scripts": {
-    "dev":   "vite",
-    "build": "vite build"
+    "dev":       "vite",
+    "build":     "vite build",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@niche-ui/tree": "workspace:*",
