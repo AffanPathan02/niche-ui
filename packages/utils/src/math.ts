@@ -64,7 +64,12 @@ export function midpoint(x1: number, y1: number, x2: number, y2: number): { x: n
  * Given a center point and a radius, returns the (x, y) on the circumference
  * at the given angle (in radians, 0 = right).
  */
-export function pointOnCircle(cx: number, cy: number, r: number, angle: number): { x: number; y: number } {
+export function pointOnCircle(
+  cx: number,
+  cy: number,
+  r: number,
+  angle: number,
+): { x: number; y: number } {
   return {
     x: cx + r * Math.cos(angle),
     y: cy + r * Math.sin(angle),

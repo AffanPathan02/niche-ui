@@ -27,6 +27,7 @@ What alternatives have you considered? Why is your proposed solution better?
 ## Component layer
 
 For new components — which layers should be included?
+
 - [ ] Layer 1 — Hook (pure logic, no JSX)
 - [ ] Layer 2 — Headless (unstyled, render props)
 - [ ] Layer 3 — Styled (drop-in default)

@@ -2,7 +2,7 @@
   "extends": "@niche-ui/tsconfig/react.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir":  "./dist"
+    "outDir": "./dist"
   },
   "include": ["src"]
 }

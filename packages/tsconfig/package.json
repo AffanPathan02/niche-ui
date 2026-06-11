@@ -4,6 +4,12 @@
   "description": "Shared TypeScript configurations for Niche UI packages",
   "license": "MIT",
   "private": false,
-  "publishConfig": { "access": "public" },
-  "files": ["base.json", "react.json", "node.json"]
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "base.json",
+    "react.json",
+    "node.json"
+  ]
 }

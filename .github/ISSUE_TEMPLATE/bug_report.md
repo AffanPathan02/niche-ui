@@ -9,9 +9,10 @@ assignees: ''
 ## Package
 
 Which `@niche-ui/*` package is affected?
+
 - [ ] `@niche-ui/tree`
 - [ ] `@niche-ui/utils`
-- [ ] Other: ___
+- [ ] Other: \_\_\_
 
 ## Describe the bug
 
@@ -35,9 +36,9 @@ What actually happened. Include screenshots if relevant.
 
 ## Environment
 
-| Item | Version |
-|------|---------|
-| Package version | |
-| React | |
-| Node.js | |
-| Browser | |
+| Item            | Version |
+| --------------- | ------- |
+| Package version |         |
+| React           |         |
+| Node.js         |         |
+| Browser         |         |

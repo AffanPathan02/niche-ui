@@ -6,11 +6,11 @@ Thank you for your interest! Niche UI is an open source React component library 
 
 Every component is built in three layers:
 
-| Layer | What it is | Who uses it |
-|-------|-----------|-------------|
-| **Hook** (`useXxxLayout`) | Pure logic — no JSX, no DOM, no styles | Canvas, WebGL, framework-agnostic |
-| **Headless** (`XxxRoot`, `XxxNodes`, etc.) | DOM structure + a11y, zero CSS | Full visual control via render props |
-| **Styled** (`<Xxx />`) | Drop-in default, basic style props | Quick start |
+| Layer                                      | What it is                             | Who uses it                          |
+| ------------------------------------------ | -------------------------------------- | ------------------------------------ |
+| **Hook** (`useXxxLayout`)                  | Pure logic — no JSX, no DOM, no styles | Canvas, WebGL, framework-agnostic    |
+| **Headless** (`XxxRoot`, `XxxNodes`, etc.) | DOM structure + a11y, zero CSS         | Full visual control via render props |
+| **Styled** (`<Xxx />`)                     | Drop-in default, basic style props     | Quick start                          |
 
 When contributing a new component, implement all three layers. When fixing a bug, identify which layer it lives in.
 

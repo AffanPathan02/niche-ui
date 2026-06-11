@@ -3,7 +3,13 @@
 // ─── Layer 1: Hook ───────────────────────────────────────────────────────────
 // Max control. Bring your own renderer (SVG, Canvas, WebGL, D3).
 export { useTreeLayout, computeTreeLayout } from './core/useTreeLayout';
-export type { TreeNode, LayoutNode, LayoutEdge, TreeLayout, TreeLayoutOptions } from './core/useTreeLayout';
+export type {
+  TreeNode,
+  LayoutNode,
+  LayoutEdge,
+  TreeLayout,
+  TreeLayoutOptions,
+} from './core/useTreeLayout';
 
 // ─── Layer 2: Headless ───────────────────────────────────────────────────────
 // Full visual control via render props. Zero opinions on CSS.

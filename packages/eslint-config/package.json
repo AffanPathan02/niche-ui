@@ -4,9 +4,13 @@
   "description": "Shared ESLint configuration for Niche UI packages",
   "license": "MIT",
   "private": false,
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./index.js",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "peerDependencies": {
     "eslint": "^9.0.0"
   },

@@ -5,6 +5,4 @@ import { defineWorkspace } from 'vitest/config';
  * Run all tests: pnpm test
  * Run one package: pnpm --filter @niche-ui/tree test
  */
-export default defineWorkspace([
-  'packages/*/vitest.config.ts',
-]);
+export default defineWorkspace(['packages/*/vitest.config.ts']);

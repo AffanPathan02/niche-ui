@@ -6,7 +6,18 @@
  */
 
 // Math and geometry
-export { clamp, lerp, mapRange, degToRad, radToDeg, distance, midpoint, pointOnCircle, round, inRange } from './math';
+export {
+  clamp,
+  lerp,
+  mapRange,
+  degToRad,
+  radToDeg,
+  distance,
+  midpoint,
+  pointOnCircle,
+  round,
+  inRange,
+} from './math';
 
 // className merge
 export { cn } from './cn';

@@ -144,7 +144,7 @@ function compute(root: TreeNode, options: TreeLayoutOptions = {}): TreeLayout {
   const stats = measureTree(root);
 
   const { hGap, vGap } = adaptiveGaps(stats, {
-    hGap: options.hGap ?? 0,   // 0 → use purely adaptive
+    hGap: options.hGap ?? 0, // 0 → use purely adaptive
     vGap: options.vGap ?? 0,
   });
 
@@ -156,9 +156,7 @@ function compute(root: TreeNode, options: TreeLayoutOptions = {}): TreeLayout {
 
   function calcWidth(node: TreeNode): number {
     const kids = node.children ?? [];
-    const w = kids.length === 0
-      ? hGap
-      : kids.reduce((acc, c) => acc + calcWidth(c), 0);
+    const w = kids.length === 0 ? hGap : kids.reduce((acc, c) => acc + calcWidth(c), 0);
     subtreeWidth.set(node, w);
     return w;
   }
@@ -170,12 +168,7 @@ function compute(root: TreeNode, options: TreeLayoutOptions = {}): TreeLayout {
   const nodesOut: LayoutNode[] = [];
   const edgesOut: LayoutEdge[] = [];
 
-  function place(
-    node: TreeNode,
-    leftEdge: number,
-    depth: number,
-    parentId?: string,
-  ): number {
+  function place(node: TreeNode, leftEdge: number, depth: number, parentId?: string): number {
     const myWidth = subtreeWidth.get(node)!;
     const centerX = leftEdge + myWidth / 2;
     const y = depth * vGap + vGap / 2;

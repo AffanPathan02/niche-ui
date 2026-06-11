@@ -40,18 +40,17 @@ export interface TreeProps {
  */
 export function Tree({
   data,
-  nodeColor  = '#6366f1',
+  nodeColor = '#6366f1',
   nodeRadius = 18,
-  edgeColor  = '#475569',
-  edgeWidth  = 1.5,
+  edgeColor = '#475569',
+  edgeWidth = 1.5,
   labelColor = '#ffffff',
-  fontSize   = 11,
+  fontSize = 11,
   style,
   className,
 }: TreeProps) {
   return (
     <TreeRoot data={data} style={style} className={className}>
-
       {/* Edges drawn first — they appear behind nodes */}
       <TreeEdges
         render={(edge) => (
@@ -85,7 +84,6 @@ export function Tree({
           </g>
         )}
       />
-
     </TreeRoot>
   );
 }

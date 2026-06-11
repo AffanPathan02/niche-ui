@@ -14,26 +14,37 @@ import type { TreeNode } from '../useTreeLayout';
 const singleNode: TreeNode = { id: 'root', label: 'A' };
 
 const linearChain: TreeNode = {
-  id: '1', label: 'A',
-  children: [
-    { id: '2', label: 'B',
-      children: [
-        { id: '3', label: 'C' }
-      ]
-    }
-  ]
+  id: '1',
+  label: 'A',
+  children: [{ id: '2', label: 'B', children: [{ id: '3', label: 'C' }] }],
 };
 
 const balanced: TreeNode = {
-  id: 'root', label: 'Root',
+  id: 'root',
+  label: 'Root',
   children: [
-    { id: 'l', label: 'L', children: [{ id: 'll', label: 'LL' }, { id: 'lr', label: 'LR' }] },
-    { id: 'r', label: 'R', children: [{ id: 'rl', label: 'RL' }, { id: 'rr', label: 'RR' }] },
+    {
+      id: 'l',
+      label: 'L',
+      children: [
+        { id: 'll', label: 'LL' },
+        { id: 'lr', label: 'LR' },
+      ],
+    },
+    {
+      id: 'r',
+      label: 'R',
+      children: [
+        { id: 'rl', label: 'RL' },
+        { id: 'rr', label: 'RR' },
+      ],
+    },
   ],
 };
 
 const wideFanout: TreeNode = {
-  id: 'root', label: 'Root',
+  id: 'root',
+  label: 'Root',
   children: Array.from({ length: 10 }, (_, i) => ({ id: `c${i}`, label: `C${i}` })),
 };
 

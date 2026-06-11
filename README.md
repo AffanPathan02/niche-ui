@@ -4,12 +4,12 @@ UI library for complex, rarely-seen components — headless by default, styled o
 
 ## Components
 
-| Package | Status | Description |
-|---|---|---|
-| `@niche-ui/tree` | ✅ WIP | Binary tree / AST visualiser |
-| `@niche-ui/graph` | 🔜 planned | Node-edge graph |
+| Package                 | Status     | Description                     |
+| ----------------------- | ---------- | ------------------------------- |
+| `@niche-ui/tree`        | ✅ WIP     | Binary tree / AST visualiser    |
+| `@niche-ui/graph`       | 🔜 planned | Node-edge graph                 |
 | `@niche-ui/video-frame` | 🔜 planned | Video frame / timeline scrubber |
-| `@niche-ui/chain` | 🔜 planned | Chained / linked list |
+| `@niche-ui/chain`       | 🔜 planned | Chained / linked list           |
 
 ---
 
@@ -39,6 +39,7 @@ pnpm dev:tree
 ### 3 — Run the playground
 
 In a second terminal:
+
 ```bash
 pnpm dev
 ```
@@ -91,7 +92,7 @@ Consumers import at whichever level they need:
 ```tsx
 // 80% of users — drop it in
 import { Tree } from '@niche-ui/tree';
-<Tree data={myTree} />
+<Tree data={myTree} />;
 
 // 15% — custom look, same layout math
 import { TreeRoot, TreeEdges, TreeNodes } from '@niche-ui/tree';

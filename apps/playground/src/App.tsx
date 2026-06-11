@@ -51,7 +51,8 @@ function StyledExample() {
       importLine="import { Tree } from '@niche-ui/tree'"
     >
       <Tree data={SAMPLE} />
-      <br /><br />
+      <br />
+      <br />
       <Tree data={SAMPLE} nodeColor="#f43f5e" edgeColor="#fda4af" nodeRadius={22} />
     </DemoSection>
   );
@@ -82,8 +83,23 @@ function HeadlessExample() {
         <TreeNodes
           render={(node) => (
             <g key={node.id} transform={`translate(${node.x}, ${node.y})`}>
-              <rect x={-26} y={-13} width={52} height={26} rx={4} fill="#1e293b" stroke="#6366f1" strokeWidth={1.5} />
-              <text textAnchor="middle" dominantBaseline="middle" fill="#a5b4fc" fontSize={10} fontFamily="monospace">
+              <rect
+                x={-26}
+                y={-13}
+                width={52}
+                height={26}
+                rx={4}
+                fill="#1e293b"
+                stroke="#6366f1"
+                strokeWidth={1.5}
+              />
+              <text
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#a5b4fc"
+                fontSize={10}
+                fontFamily="monospace"
+              >
                 {node.label}
               </text>
             </g>
@@ -175,9 +191,9 @@ function DemoSection({
 
 type Section = 'styled' | 'headless' | 'hook';
 const SECTIONS: { id: Section; label: string }[] = [
-  { id: 'styled',   label: 'Layer 3 — Styled' },
+  { id: 'styled', label: 'Layer 3 — Styled' },
   { id: 'headless', label: 'Layer 2 — Headless' },
-  { id: 'hook',     label: 'Layer 1 — Hook' },
+  { id: 'hook', label: 'Layer 1 — Hook' },
 ];
 
 function Sidebar({ active, onSelect }: { active: Section; onSelect: (s: Section) => void }) {
@@ -229,9 +245,9 @@ export default function App() {
           </p>
         </div>
 
-        {active === 'styled'   && <StyledExample />}
+        {active === 'styled' && <StyledExample />}
         {active === 'headless' && <HeadlessExample />}
-        {active === 'hook'     && <HookExample />}
+        {active === 'hook' && <HookExample />}
       </main>
     </div>
   );
