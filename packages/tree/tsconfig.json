@@ -1,0 +1,9 @@
+{
+  "extends": "@niche-ui/tsconfig/react.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@niche-ui/eslint-config",
+  "version": "0.0.1",
+  "description": "Shared ESLint configuration for Niche UI packages",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": { "access": "public" },
+  "main": "./index.js",
+  "files": ["index.js"],
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0"
+  }
+}
