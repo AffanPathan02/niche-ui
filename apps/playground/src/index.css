@@ -19,6 +19,9 @@
   --color-rose:         #f43f5e;
   --color-rose-light:   #fda4af;
   --color-emerald:      #10b981;
+  --color-amber:        #f59e0b;
+  --color-amber-light:  #fcd34d;
+  --color-orange:       #f97316;
 
   /* Text */
   --color-text-primary:   #f1f5f9;
@@ -247,6 +250,35 @@ body {
   color: var(--color-rose-light);
   background: rgba(244, 63, 94, 0.1);
   border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+/* flame-graph package badge variant */
+.badge--flame {
+  color: var(--color-amber-light);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ─── Flame demo ──────────────────────────────────────────────────────────── */
+.flame-demo__canvas {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  overflow: auto;
+  max-width: 100%;
+}
+
+/* Sidebar package group heading */
+.sidebar__package-heading {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  margin-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
 }
 
 .demo-section__import {

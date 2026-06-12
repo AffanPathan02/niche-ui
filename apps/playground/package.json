@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@niche-ui/tree": "workspace:*",
+    "@niche-ui/flame-graph": "workspace:*",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
