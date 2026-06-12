@@ -7,6 +7,7 @@ UI library for complex, rarely-seen components — headless by default, styled o
 | Package                 | Status     | Description                     |
 | ----------------------- | ---------- | ------------------------------- |
 | `@niche-ui/tree`        | ✅ WIP     | Binary tree / AST visualiser    |
+| `@niche-ui/flame-graph` | ✅ WIP     | Flame graph`                    |
 | `@niche-ui/graph`       | 🔜 planned | Node-edge graph                 |
 | `@niche-ui/video-frame` | 🔜 planned | Video frame / timeline scrubber |
 | `@niche-ui/chain`       | 🔜 planned | Chained / linked list           |
