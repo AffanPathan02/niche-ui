@@ -6,6 +6,7 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "build:tree": "pnpm --filter @niche-ui/tree build",
+    "build:graph": "pnpm --filter @niche-ui/graph build",
     "lint": "turbo lint",
     "test": "vitest run --workspace vitest.workspace.ts",
     "test:watch": "vitest --workspace vitest.workspace.ts",

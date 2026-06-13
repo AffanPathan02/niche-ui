@@ -32,6 +32,9 @@ importers:
       '@niche-ui/flame-graph':
         specifier: workspace:*
         version: link:../../packages/flame-graph
+      '@niche-ui/graph':
+        specifier: workspace:*
+        version: link:../../packages/graph
       '@niche-ui/tree':
         specifier: workspace:*
         version: link:../../packages/tree
@@ -77,6 +80,43 @@ importers:
         version: 5.2.0(eslint@9.39.4)
 
   packages/flame-graph:
+    dependencies:
+      '@niche-ui/utils':
+        specifier: workspace:*
+        version: link:../utils
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+    devDependencies:
+      '@niche-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.31
+      '@vitejs/plugin-react':
+        specifier: ^4.3.0
+        version: 4.7.0(vite@5.4.21)
+      '@vitest/coverage-v8':
+        specifier: ^1.6.0
+        version: 1.6.1(vitest@1.6.1(jsdom@24.1.3))
+      jsdom:
+        specifier: ^24.0.0
+        version: 24.1.3
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21
+      vite-plugin-dts:
+        specifier: ^3.9.0
+        version: 3.9.1(rollup@4.61.1)(typescript@5.9.3)(vite@5.4.21)
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(jsdom@24.1.3)
+
+  packages/graph:
     dependencies:
       '@niche-ui/utils':
         specifier: workspace:*

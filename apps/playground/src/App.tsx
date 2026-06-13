@@ -25,6 +25,20 @@ import {
   type FlameFrame,
 } from '@niche-ui/flame-graph';
 
+import {
+  // Layer 3 — Styled
+  Graph,
+  // Layer 2 — Headless
+  GraphRoot,
+  GraphEdges,
+  GraphNodes,
+  // Layer 1 — Hook
+  computeGraphLayout,
+  type GraphData,
+  type LayoutGraphNode,
+  type LayoutGraphEdge,
+} from '@niche-ui/graph';
+
 // ─── Tree sample data ─────────────────────────────────────────────────────────
 
 function generateRandomTree(
@@ -307,6 +321,50 @@ const FLAME_SAMPLE: FlameSample = {
         },
       ],
     },
+  ],
+};
+
+// ─── Graph sample data — React ecosystem dependency graph ────────────────────
+//
+// Models a realistic package dependency graph as a directed graph.
+// Each node is a package; each edge is a "depends on" relationship.
+
+const GRAPH_SAMPLE: GraphData = {
+  nodes: [
+    { id: 'react', label: 'react' },
+    { id: 'react-dom', label: 'react-dom' },
+    { id: 'scheduler', label: 'scheduler' },
+    { id: 'react-router', label: 'react-router' },
+    { id: 'history', label: 'history' },
+    { id: 'zustand', label: 'zustand' },
+    { id: 'immer', label: 'immer' },
+    { id: 'axios', label: 'axios' },
+    { id: 'swr', label: 'swr' },
+    { id: 'vite', label: 'vite' },
+    { id: 'esbuild', label: 'esbuild' },
+    { id: 'rollup', label: 'rollup' },
+    { id: 'typescript', label: 'typescript' },
+    { id: 'app', label: 'app' },
+  ],
+  edges: [
+    { id: 'e1', source: 'react-dom', target: 'react' },
+    { id: 'e2', source: 'react-dom', target: 'scheduler' },
+    { id: 'e3', source: 'react', target: 'scheduler' },
+    { id: 'e4', source: 'react-router', target: 'react' },
+    { id: 'e5', source: 'react-router', target: 'history' },
+    { id: 'e6', source: 'zustand', target: 'react' },
+    { id: 'e7', source: 'zustand', target: 'immer' },
+    { id: 'e8', source: 'swr', target: 'react' },
+    { id: 'e9', source: 'swr', target: 'axios' },
+    { id: 'e10', source: 'vite', target: 'esbuild' },
+    { id: 'e11', source: 'vite', target: 'rollup' },
+    { id: 'e12', source: 'app', target: 'react' },
+    { id: 'e13', source: 'app', target: 'react-dom' },
+    { id: 'e14', source: 'app', target: 'react-router' },
+    { id: 'e15', source: 'app', target: 'zustand' },
+    { id: 'e16', source: 'app', target: 'swr' },
+    { id: 'e17', source: 'app', target: 'vite' },
+    { id: 'e18', source: 'app', target: 'typescript' },
   ],
 };
 
@@ -629,6 +687,250 @@ function FlameHookExample() {
   );
 }
 
+// ─── Graph — Layer 3: Styled ──────────────────────────────────────────────────
+
+function GraphStyledExample() {
+  return (
+    <DemoSection
+      title="Layer 3 — Styled"
+      layer="l3"
+      importLine="import { Graph } from '@niche-ui/graph'"
+      packageBadge="graph"
+    >
+      <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 16 }}>
+        React ecosystem dependency graph — hover any node to highlight its edges.
+      </p>
+
+      <div style={{ marginBottom: 28 }}>
+        <p
+          style={{
+            fontSize: 11,
+            color: 'var(--color-text-muted)',
+            marginBottom: 8,
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          directed={'{true}'} nodeColor="#06b6d4" (default)
+        </p>
+        <Graph
+          data={GRAPH_SAMPLE}
+          width={820}
+          height={520}
+          nodeColor="#06b6d4"
+          edgeColor="#334155"
+          nodeRadius={22}
+          directed
+        />
+      </div>
+
+      <div>
+        <p
+          style={{
+            fontSize: 11,
+            color: 'var(--color-text-muted)',
+            marginBottom: 8,
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          directed={'{false}'} nodeColor="#a78bfa" (undirected, violet)
+        </p>
+        <Graph
+          data={GRAPH_SAMPLE}
+          width={820}
+          height={520}
+          nodeColor="#a78bfa"
+          edgeColor="#3730a3"
+          nodeRadius={22}
+          directed={false}
+          iterations={250}
+          seed={1.2}
+        />
+      </div>
+    </DemoSection>
+  );
+}
+
+// ─── Graph — Layer 2: Headless ────────────────────────────────────────────────
+
+function GraphHeadlessExample() {
+  const W = 820;
+  const H = 520;
+  const R = 20;
+
+  // Deterministic hash for stable per-node colors
+  function hashId(s: string): number {
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) h = ((h << 5) + h) ^ s.charCodeAt(i);
+    return h >>> 0;
+  }
+
+  const renderEdge = (edge: LayoutGraphEdge) => {
+    // Cubic bezier with a slight arc
+    const mx = (edge.x1 + edge.x2) / 2;
+    const my = (edge.y1 + edge.y2) / 2 - 30;
+    return (
+      <path
+        key={edge.id}
+        fill="none"
+        d={`M${edge.x1},${edge.y1} Q${mx},${my} ${edge.x2},${edge.y2}`}
+        stroke="rgba(99,102,241,0.45)"
+        strokeWidth={1.5}
+        strokeDasharray="5 3"
+      />
+    );
+  };
+
+  const renderNode = (node: LayoutGraphNode) => {
+    const h = hashId(node.id);
+    const hue = 200 + (h % 80); // cyan–blue range
+    const fill = `hsl(${hue}, 70%, 42%)`;
+    const stroke = `hsl(${hue}, 80%, 65%)`;
+
+    return (
+      <g key={node.id} transform={`translate(${node.x}, ${node.y})`}>
+        {/* Hexagonal clip path would be complex in SVG; use octagon via polygon */}
+        <circle r={R} fill={fill} stroke={stroke} strokeWidth={2} />
+        <text
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill="#f1f5f9"
+          fontSize={9}
+          fontFamily="'JetBrains Mono', monospace"
+          style={{ userSelect: 'none' }}
+        >
+          {node.label.length > 8 ? node.label.slice(0, 7) + '…' : node.label}
+        </text>
+      </g>
+    );
+  };
+
+  return (
+    <DemoSection
+      title="Layer 2 — Headless"
+      layer="l2"
+      importLine="import { GraphRoot, GraphEdges, GraphNodes } from '@niche-ui/graph'"
+      packageBadge="graph"
+    >
+      <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 12 }}>
+        Custom hashed-hue node colors and curved bezier edges — zero CSS from the library.
+      </p>
+      <GraphRoot
+        data={GRAPH_SAMPLE}
+        layout={{ width: W, height: H, iterations: 200, nodeRadius: R }}
+      >
+        <GraphEdges render={renderEdge} />
+        <GraphNodes render={renderNode} />
+      </GraphRoot>
+    </DemoSection>
+  );
+}
+
+// ─── Graph — Layer 1: Hook (Canvas) ──────────────────────────────────────────
+
+function GraphHookExample() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const W = 820;
+  const H = 520;
+  const R = 20;
+
+  useEffect(() => {
+    const layout = computeGraphLayout(GRAPH_SAMPLE, {
+      width: W,
+      height: H,
+      iterations: 220,
+      nodeRadius: R,
+    });
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw edges
+    for (const edge of layout.edges) {
+      const dx = edge.x2 - edge.x1;
+      const dy = edge.y2 - edge.y1;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const ux = dx / len;
+      const uy = dy / len;
+
+      const arrowSize = 7;
+
+      // Tip of the arrow touches the target node boundary (at radius R)
+      const ax = edge.x2 - ux * R;
+      const ay = edge.y2 - uy * R;
+
+      // Base of the arrowhead is at R + arrowSize from center
+      const ex = edge.x2 - ux * (R + arrowSize);
+      const ey = edge.y2 - uy * (R + arrowSize);
+
+      // Start of the line at source node boundary (at radius R)
+      const sx = edge.x1 + ux * R;
+      const sy = edge.y1 + uy * R;
+
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(ex, ey);
+      ctx.strokeStyle = 'rgba(51, 65, 85, 0.8)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Arrowhead triangle pointing towards (ax, ay)
+      ctx.beginPath();
+      ctx.moveTo(ax, ay);
+      ctx.lineTo(ex - uy * arrowSize, ey + ux * arrowSize);
+      ctx.lineTo(ex + uy * arrowSize, ey - ux * arrowSize);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(51, 65, 85, 0.8)';
+      ctx.fill();
+    }
+
+    // Draw nodes
+    for (const node of layout.nodes) {
+      // Hashed hue
+      let h = 5381;
+      for (let i = 0; i < node.id.length; i++) h = ((h << 5) + h) ^ node.id.charCodeAt(i);
+      h = h >>> 0;
+      const hue = 180 + (h % 60);
+
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, R, 0, Math.PI * 2);
+      ctx.fillStyle = `hsl(${hue}, 65%, 42%)`;
+      ctx.fill();
+      ctx.strokeStyle = `hsl(${hue}, 75%, 62%)`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#f1f5f9';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const label = node.label.length > 8 ? node.label.slice(0, 7) + '…' : node.label;
+      ctx.fillText(label, node.x, node.y);
+    }
+  }, []);
+
+  return (
+    <DemoSection
+      title="Layer 1 — Hook (Canvas)"
+      layer="l1"
+      importLine="import { computeGraphLayout } from '@niche-ui/graph'"
+      packageBadge="graph"
+    >
+      <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 12 }}>
+        Pure Canvas renderer — uses{' '}
+        <code
+          style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-text-code)' }}
+        >
+          computeGraphLayout
+        </code>{' '}
+        directly, no React components from the library. Manually draws arrowheads.
+      </p>
+      <canvas ref={canvasRef} width={W} height={H} style={{ display: 'block', borderRadius: 6 }} />
+    </DemoSection>
+  );
+}
+
 // ─── DemoSection shell ────────────────────────────────────────────────────────
 
 type LayerBadge = 'l1' | 'l2' | 'l3';
@@ -648,7 +950,7 @@ function DemoSection({
   title: string;
   importLine: string;
   layer: LayerBadge;
-  packageBadge?: 'flame';
+  packageBadge?: 'flame' | 'graph';
   children: React.ReactNode;
 }) {
   return (
@@ -658,6 +960,9 @@ function DemoSection({
         <span className={`demo-section__layer-badge badge--${layer}`}>{LAYER_LABELS[layer]}</span>
         {packageBadge === 'flame' && (
           <span className="demo-section__layer-badge badge--flame">flame-graph</span>
+        )}
+        {packageBadge === 'graph' && (
+          <span className="demo-section__layer-badge badge--graph">graph</span>
         )}
       </div>
       <code className="demo-section__import">{importLine}</code>
@@ -674,7 +979,10 @@ type Section =
   | 'tree-hook'
   | 'flame-styled'
   | 'flame-headless'
-  | 'flame-hook';
+  | 'flame-hook'
+  | 'graph-styled'
+  | 'graph-headless'
+  | 'graph-hook';
 
 const TREE_SECTIONS: { id: Section; label: string }[] = [
   { id: 'tree-styled', label: 'Layer 3 — Styled' },
@@ -686,6 +994,12 @@ const FLAME_SECTIONS: { id: Section; label: string }[] = [
   { id: 'flame-styled', label: 'Layer 3 — Styled' },
   { id: 'flame-headless', label: 'Layer 2 — Headless' },
   { id: 'flame-hook', label: 'Layer 1 — Hook' },
+];
+
+const GRAPH_SECTIONS: { id: Section; label: string }[] = [
+  { id: 'graph-styled', label: 'Layer 3 — Styled' },
+  { id: 'graph-headless', label: 'Layer 2 — Headless' },
+  { id: 'graph-hook', label: 'Layer 1 — Hook' },
 ];
 
 function Sidebar({ active, onSelect }: { active: Section; onSelect: (s: Section) => void }) {
@@ -709,6 +1023,21 @@ function Sidebar({ active, onSelect }: { active: Section; onSelect: (s: Section)
       <p className="sidebar__package-heading">@niche-ui/flame-graph</p>
       <ul className="sidebar__nav">
         {FLAME_SECTIONS.map(({ id, label }) => (
+          <li key={id}>
+            <button
+              className={`sidebar__link${active === id ? ' active' : ''}`}
+              onClick={() => onSelect(id)}
+            >
+              <span className="sidebar__dot" />
+              {label}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <p className="sidebar__package-heading">@niche-ui/graph</p>
+      <ul className="sidebar__nav">
+        {GRAPH_SECTIONS.map(({ id, label }) => (
           <li key={id}>
             <button
               className={`sidebar__link${active === id ? ' active' : ''}`}
@@ -751,6 +1080,18 @@ const PAGE_META: Record<Section, { title: string; desc: string }> = {
     title: '@niche-ui/flame-graph',
     desc: 'Flame graph visualiser — hook-only. Bring your own Canvas or WebGL renderer.',
   },
+  'graph-styled': {
+    title: '@niche-ui/graph',
+    desc: 'Node-edge graph visualiser — force-directed layout. Hover to highlight connected edges.',
+  },
+  'graph-headless': {
+    title: '@niche-ui/graph',
+    desc: 'Node-edge graph — full render-prop control. Custom node shapes, edge curves, zero CSS.',
+  },
+  'graph-hook': {
+    title: '@niche-ui/graph',
+    desc: 'Node-edge graph — hook-only. Bring your own Canvas, WebGL, or D3 renderer.',
+  },
 };
 
 // ─── App ──────────────────────────────────────────────────────────────────────
@@ -786,6 +1127,9 @@ export default function App() {
         {active === 'flame-styled' && <FlameStyledExample />}
         {active === 'flame-headless' && <FlameHeadlessExample />}
         {active === 'flame-hook' && <FlameHookExample />}
+        {active === 'graph-styled' && <GraphStyledExample />}
+        {active === 'graph-headless' && <GraphHeadlessExample />}
+        {active === 'graph-hook' && <GraphHookExample />}
       </main>
     </div>
   );
